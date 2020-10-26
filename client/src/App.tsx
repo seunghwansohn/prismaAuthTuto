@@ -1,24 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import { useQuery, useMutation, gql } from '@apollo/client';
+
+const LOGIN = gql`
+  mutation{
+    loginUser(email:"lee@sohntech.net", password: "ddffdgbvdvcf"){
+      id
+      email
+      token
+    }
+  }
+`;
+
 function App() {
+
+  const [login, {error, data}] = useMutation(LOGIN)
+
+  console.log(data)
+  const handleLogin = () =>{
+    console.log('로긴버튼')
+    login()
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick = {() => {handleLogin()}}>로그인</button>
     </div>
   );
 }

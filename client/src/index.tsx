@@ -1,6 +1,6 @@
-import React from 'react';
+import React    from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -11,18 +11,14 @@ import {
   ApolloProvider
 } from "@apollo/client";
 
-//apollo-boost는 Apollo에서 제공하는 GraphQL 클라이언트 패키지
-
 const link = createHttpLink({
-  uri: "localhost:4000"
+  uri: "http://localhost:4000"
 });
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link
 });
-
-
 
 ReactDOM.render(
   <ApolloProvider client = {client}>
