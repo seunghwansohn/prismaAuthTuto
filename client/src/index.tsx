@@ -4,32 +4,18 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {cache} from './apolloClient/cache';
+
 import {
   ApolloClient,
   createHttpLink,
-  InMemoryCache,
-  ApolloProvider
+  ApolloProvider,
 } from "@apollo/client";
 
 const link = createHttpLink({
   uri: "http://localhost:4000"
 });
 
-const cartItemsVar : any = () => 3 
-
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        cartItems: {
-          read() {
-            return cartItemsVar();
-          }
-        }
-      }
-    }
-  }
-});
 
 const client = new ApolloClient({
   cache,

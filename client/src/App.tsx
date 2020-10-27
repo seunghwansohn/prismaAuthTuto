@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import './App.css';
+import React from 'react';
 
 import { useQuery, useMutation, gql } from '@apollo/client';
 
-import { makeVar } from '@apollo/client';
+import {cartItemsVar} from './apolloClient/cache'
 
 const LOGIN = gql`
   mutation{
@@ -15,27 +14,34 @@ const LOGIN = gql`
   }
 `;
 
-function App() {
+export const GET_CART_ITEMS = gql`
+  query GetCartItems {
+    cartItems @client
+  }
+`;
+
+const App = () => {
 
   const [login, {error, data}] = useMutation(LOGIN)
-
-  const cartItemsVar    = makeVar('카카카');
-  const [text, setText] = useState(cartItemsVar)
+  const { 
+    data : dataCart, 
+    loading, 
+    error : cartError } = useQuery(GET_CART_ITEMS);
 
   const handleLogin = () =>{
     login()
   }
 
   const handleChangeInput = (e : any) =>{
-    setText(cartItemsVar(e.target.value))
+    cartItemsVar(e.target.value)
   }
 
   return (
     <div className="App">
       <button onClick = {() => {handleLogin()}}>로그인</button>
-      <input onChange = {(e : any) => handleChangeInput(e)}></input>
 
-      <div>입력된 텍스트는 {text}입니다.</div>
+      <input onChange = {(e : any) => handleChangeInput(e)}></input>
+      <div>입력된 텍스트는 {dataCart.cartItems}입니다.</div>
     </div>
   );
 }
