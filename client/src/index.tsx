@@ -10,6 +10,7 @@ import {
   ApolloClient,
   createHttpLink,
   ApolloProvider,
+  gql
 } from "@apollo/client";
 
 const link = createHttpLink({
@@ -17,9 +18,26 @@ const link = createHttpLink({
 });
 
 
+const typeDefs = gql`
+  type Query {
+    GetCartItems: Boolean!
+  }
+
+  type Mutation {
+    upvotePost (
+      postId: Int!
+    ): Post
+  }
+  
+  type Cart {
+    id: Int!
+  }
+`;
+
 const client = new ApolloClient({
   cache,
-  link
+  uri: "http://localhost:4000",
+  typeDefs,
 });
 
 ReactDOM.render(

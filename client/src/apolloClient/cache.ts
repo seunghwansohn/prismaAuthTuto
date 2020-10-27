@@ -4,6 +4,7 @@ import {
 } from "@apollo/client";
 
 export const cartItemsVar = makeVar([])
+export const ifCheckedVar = makeVar(false)
 
 export const cache = new InMemoryCache({
   typePolicies: {
@@ -12,6 +13,11 @@ export const cache = new InMemoryCache({
         cartItems: {
           read() {
             return cartItemsVar();
+          }
+        },
+        ifChecked : {
+          read() {
+            return ifCheckedVar()
           }
         }
       }
