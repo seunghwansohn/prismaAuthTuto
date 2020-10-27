@@ -15,8 +15,24 @@ const link = createHttpLink({
   uri: "http://localhost:4000"
 });
 
+const cartItemsVar : any = () => 3 
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        cartItems: {
+          read() {
+            return cartItemsVar();
+          }
+        }
+      }
+    }
+  }
+});
+
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache,
   link
 });
 
